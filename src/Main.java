@@ -1,12 +1,24 @@
+import models.Conversion;
+import models.ExchangeRatesConversion;
 
 public class Main {
     public static void main(String[] args) {
 
-        String address;
+        Conversion conversion;
+        ExchangeRatesConversion erc;
         do{
-            address = Menu.buildMenu();
-            System.out.println(address);
-            if (address.equals("exit")) break;
+            conversion = Menu.buildMenu();
+            if (conversion == null) break;
+            String address = ExchangeRatesAPIConnection.getAddress(
+                    conversion.getBaseCoin(),
+                    conversion.getTargetCoin()
+            );
+
+            String json = ExchangeRatesAPIConnection.getRate(address);
+            erc = ExchangeRatesAPIConnection.toCoinRate(json);
+            conversion.setTax(erc.conversionRate());
+            conversion.makeConversion();
+            System.out.println(conversion.toString());
         }while (true);
 
 

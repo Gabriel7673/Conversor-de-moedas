@@ -1,3 +1,5 @@
+import models.Conversion;
+
 import java.util.Scanner;
 
 public class Menu {
@@ -6,32 +8,18 @@ public class Menu {
     public static void limpar() {
         String spaces = """
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 
                 """;
         System.out.println(spaces);
     }
 
-    public static String buildMenu(){
+    public static Conversion buildMenu(){
 
         Scanner reader = new Scanner(System.in);
+        Conversion conversion = null;
+
+        limpar();
 
         String part1 = """
                 
@@ -85,7 +73,7 @@ public class Menu {
         System.out.print(part2);
         int status = reader.nextInt();
         if (status == 0){
-            return "exit";
+            return conversion;
         }
         System.out.print(part3);
         int moedaBase = reader.nextInt();
@@ -94,8 +82,11 @@ public class Menu {
         System.out.print(part5);
         double valor = reader.nextInt();
 
-        limpar();
-        return ExchangeRates_API.getAddress(selectOption(moedaBase), selectOption(moedaDesejada), valor);
+
+
+        conversion = new Conversion(selectOption(moedaBase), selectOption(moedaDesejada), valor);
+
+        return conversion;
     }
 
     private static String selectOption(int option){
