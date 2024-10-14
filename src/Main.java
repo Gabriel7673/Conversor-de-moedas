@@ -6,16 +6,28 @@ public class Main {
 
         Conversion conversion;
         ExchangeRatesConversion erc;
+        String address, json;
+
         do{
             conversion = Menu.buildMenu();
             if (conversion == null) break;
-            String address = ExchangeRatesAPIConnection.getAddress(
-                    conversion.getBaseCoin(),
-                    conversion.getTargetCoin()
+            if (conversion.getTargetCode() == null){
+                address = ExchangeRatesAPIConnection.getAddress(
+                        conversion.getBaseCode()
+                );
+                json = ExchangeRatesAPIConnection.getRate(address);
+                erc = ExchangeRatesAPIConnection.toConversion(json);
+                conversion.setConversionRates(erc.conversionRates());
+                conversion.listConversionRates();
+                continue;
+            }
+            address = ExchangeRatesAPIConnection.getAddress(
+                    conversion.getBaseCode(),
+                    conversion.getTargetCode()
             );
 
-            String json = ExchangeRatesAPIConnection.getRate(address);
-            erc = ExchangeRatesAPIConnection.toCoinRate(json);
+            json = ExchangeRatesAPIConnection.getRate(address);
+            erc = ExchangeRatesAPIConnection.toConversion(json);
             conversion.setTax(erc.conversionRate());
             conversion.makeConversion();
             System.out.println(conversion.toString());

@@ -21,7 +21,7 @@ public class Menu {
 
         limpar();
 
-        String part1 = """
+        String welcome = """
                 
                 
                 *********************************
@@ -30,16 +30,17 @@ public class Menu {
                 
                 """;
                 
-        String part2 = """
+        String choise = """
                 
                 
                 ***********************************************
                 Caso queira interroper a aplicação, pressione 0
-                Caso queira continuar, pressione 1
+                Caso queira ver as taxas de conversão para um código, pressione 1
+                Caso queira converter um valor entre dois códigos, pressione 2
                 Escolha: 
                 """;
 
-        String part3 = """
+        String baseCodeChoise = """
                 
                 ************************
                 Escolha a moeda de base:
@@ -52,7 +53,7 @@ public class Menu {
                 7) EUR
                 Opção: 
                 """;
-        String part4 = """
+        String targetCodeChoise = """
                 *************************
                 Escolha a moeda desejada:
                 1) USD
@@ -64,27 +65,37 @@ public class Menu {
                 7) EUR
                 Opção: 
                 """;
-        String part5 = """
+        String valueChoise = """
                 *************************
                 Valor a converter: 
                 """;
+        int baseCode, targetCode;
+        double value;
 
-        System.out.print(part1);
-        System.out.print(part2);
+        System.out.print(welcome);
+        System.out.print(choise);
         int status = reader.nextInt();
-        if (status == 0){
-            return conversion;
+        try{
+            if (status == 0){
+                return conversion;
+            } else if (status == 1) {
+                System.out.print(baseCodeChoise);
+                baseCode = reader.nextInt();
+                conversion = new Conversion(selectOption(baseCode));
+            } else if (status == 2) {
+                System.out.print(baseCodeChoise);
+                baseCode = reader.nextInt();
+                System.out.print(targetCodeChoise);
+                targetCode = reader.nextInt();
+                System.out.print(valueChoise);
+                value = reader.nextDouble();
+                conversion = new Conversion(selectOption(baseCode), selectOption(targetCode), value);
+            }else{
+                throw new Exception(); // Criar
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        System.out.print(part3);
-        int moedaBase = reader.nextInt();
-        System.out.print(part4);
-        int moedaDesejada = reader.nextInt();
-        System.out.print(part5);
-        double valor = reader.nextInt();
-
-
-
-        conversion = new Conversion(selectOption(moedaBase), selectOption(moedaDesejada), valor);
 
         return conversion;
     }

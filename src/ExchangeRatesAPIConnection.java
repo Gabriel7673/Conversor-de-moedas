@@ -27,7 +27,7 @@ public class ExchangeRatesAPIConnection {
         }
     }
 
-    public static ExchangeRatesConversion toCoinRate(String json){
+    public static ExchangeRatesConversion toConversion(String json){
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setPrettyPrinting()
@@ -45,5 +45,9 @@ public class ExchangeRatesAPIConnection {
     public static String getAddress(String moedaBase, String moedaDesejada, double valor){
         return "https://v6.exchangerate-api.com/v6/5d39f4fa20334d740224c994/pair/" + moedaBase
                 + "/" + moedaDesejada + "/" + valor;
+    }
+
+    public static String getAddress(String moedaBase){
+        return "https://v6.exchangerate-api.com/v6/5d39f4fa20334d740224c994/latest/" + moedaBase;
     }
 }
