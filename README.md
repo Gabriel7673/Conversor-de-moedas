@@ -1,5 +1,5 @@
 # Conversor de Moedas
-![Imagem de troca de dinheiro para câmbios diferentes](euro-948006_1280.jpg)
+![Imagem de troca de dinheiro para câmbios diferentes](assets/euro-948006_1280.jpg)
 
 ## Descrição 
 Projeto em linha de comando pedido como 1º Desafio Backend no programa Oracle Next Education. 
