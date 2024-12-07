@@ -16,3 +16,13 @@ A API utilizada é a [ExchangeRate API](https://www.exchangerate-api.com/)
 - `Paradigma de Orientação a Objetos`
 - `Gson`
 - `Intellij IDEA`
+
+## Funcionamento
+![Menu inicial](assets/etapa1.png)
+![Escolha da moeda base e lista de conversões](assets/etapa2.png)
+
+...
+
+![Escolha por conversão](assets/etapa3.png)
+![Escolha das moedas para conversãp](assets/etapa4.png)
+![Valor convertido](assets/etapa5.png)
