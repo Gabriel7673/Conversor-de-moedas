@@ -40,8 +40,9 @@ public class Conversion {
     }
 
     public void listConversionRates(){
+        Double value;
         for (String key : conversionRates.keySet()) {
-            Double value = conversionRates.get(key);
+            value = conversionRates.get(key);
             System.out.println("  -> " + key + ": " + value);
         }
     }
@@ -56,7 +57,7 @@ public class Conversion {
 
     @Override
     public String toString() {
-        return  String.format("Conversion of %.2f %s to %s with tax of %f is %.2f",
+        return  String.format("Conversão de %.2f %s para %s com taxa de %f é %.2f",
                 value, baseCode, targetCode, tax, newValue);
     }
 }

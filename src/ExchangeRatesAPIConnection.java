@@ -38,8 +38,6 @@ public class ExchangeRatesAPIConnection {
     public static String getAddress(String moedaBase, String moedaDesejada){
         return "https://v6.exchangerate-api.com/v6/5d39f4fa20334d740224c994/pair/" + moedaBase
                 + "/" + moedaDesejada;
-        //return "https://v6.exchangerate-api.com/v6/5d39f4fa20334d740224c994/pair/" + moedaBase
-        //        + "/" + moedaDesejada + "/" + valor;
     }
 
     public static String getAddress(String moedaBase, String moedaDesejada, double valor){

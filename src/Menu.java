@@ -1,9 +1,14 @@
 import models.Conversion;
+import models.ExchangeRatesConversion;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
 
+    private ExchangeRatesConversion erc;
+    private String address;
+    private String json;
 
     public static void limpar() {
         String spaces = """
@@ -14,7 +19,7 @@ public class Menu {
         System.out.println(spaces);
     }
 
-    public static Conversion buildMenu(){
+    public void buildMenu(){
 
         Scanner reader = new Scanner(System.in);
         Conversion conversion = null;
@@ -71,33 +76,55 @@ public class Menu {
                 """;
         int baseCode, targetCode;
         double value;
+        int status = 0;
 
-        System.out.print(welcome);
-        System.out.print(choise);
-        int status = reader.nextInt();
-        try{
-            if (status == 0){
-                return conversion;
-            } else if (status == 1) {
-                System.out.print(baseCodeChoise);
-                baseCode = reader.nextInt();
-                conversion = new Conversion(selectOption(baseCode));
-            } else if (status == 2) {
-                System.out.print(baseCodeChoise);
-                baseCode = reader.nextInt();
-                System.out.print(targetCodeChoise);
-                targetCode = reader.nextInt();
-                System.out.print(valueChoise);
-                value = reader.nextDouble();
-                conversion = new Conversion(selectOption(baseCode), selectOption(targetCode), value);
-            }else{
-                throw new Exception(); // Criar
+        do {
+            try {
+                System.out.print(welcome);
+                System.out.print(choise);
+                status = reader.nextInt();
+                if (status == 0) {
+                    System.out.println("Encerrando...");
+                    break;
+                } else if (status == 1) {
+                    System.out.print(baseCodeChoise);
+                    baseCode = reader.nextInt();
+                    conversion = new Conversion(selectOption(baseCode));
+                    listConvertions(conversion);
+                } else if (status == 2) {
+                    System.out.print(baseCodeChoise);
+                    baseCode = reader.nextInt();
+                    System.out.print(targetCodeChoise);
+                    targetCode = reader.nextInt();
+                    System.out.print(valueChoise);
+                    value = reader.nextDouble();
+                    conversion = new Conversion(selectOption(baseCode), selectOption(targetCode), value);
+                    makeConvertion(conversion);
+                }else {
+                    System.out.println("Opção inválida.");
+                }
+            }catch (InputMismatchException e){
+                System.out.println("Apenas números inteiros são aceitos.");
+                reader.nextLine();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        } while (status != 0);
+    }
 
-        return conversion;
+    private void listConvertions(Conversion conversion){
+        address = ExchangeRatesAPIConnection.getAddress(conversion.getBaseCode());
+        json = ExchangeRatesAPIConnection.getRate(address);
+        erc = ExchangeRatesAPIConnection.toConversion(json);
+        conversion.setConversionRates(erc.conversionRates());
+        conversion.listConversionRates();
+    }
+
+    private void makeConvertion(Conversion conversion){
+        address = ExchangeRatesAPIConnection.getAddress(conversion.getBaseCode(), conversion.getTargetCode());
+        json = ExchangeRatesAPIConnection.getRate(address);
+        erc = ExchangeRatesAPIConnection.toConversion(json);
+        conversion.setTax(erc.conversionRate());
+        conversion.makeConversion();
+        System.out.println(conversion.toString());
     }
 
     private static String selectOption(int option){
